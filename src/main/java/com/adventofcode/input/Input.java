@@ -2,6 +2,7 @@ package com.adventofcode.input;
 
 import com.adventofcode.input.bingo.BingoBoard;
 import com.adventofcode.input.bingo.Game;
+import com.adventofcode.input.day5.HydrothermalVent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -62,6 +63,14 @@ public class Input {
             boards.add(new BingoBoard(boardElements));
         }
         return new Game(numbers, boards);
+    }
+
+    public static List<HydrothermalVent> hydrothermalVents(String resourceName) throws IOException {
+        return getInputFromFile(resourceName)
+                .stream()
+                .map(line -> line.split(" -> "))
+                .map(twoPointsStrings -> new HydrothermalVent(twoPointsStrings[0], twoPointsStrings[1]))
+                .toList();
     }
 
     private static List<String> getInputFromFile(String resourceName) throws IOException {
