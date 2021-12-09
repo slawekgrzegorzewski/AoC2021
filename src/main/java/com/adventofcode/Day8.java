@@ -7,7 +7,8 @@ import com.adventofcode.input.day8.Signal;
 import com.adventofcode.input.day8.SignalAnalyzer;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
 
 public class Day8 {
 
@@ -46,6 +47,15 @@ public class Day8 {
                     return new OutputConverter(mappings).convert(entry.getValue());
                 })
                 .sum();
+    }
+
+    int exampleInput() {
+        Signal s = Signal.parse("acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab");
+        Output o = Output.parse("cdfeb fcadb cdfeb cdbaf");
+        SignalAnalyzer signalAnalyzer = new SignalAnalyzer(s);
+        signalAnalyzer.analyze();
+        Map<Character, Character> mappings = signalAnalyzer.mappings();
+        return new OutputConverter(mappings).convert(o);
     }
 }
 

@@ -26,4 +26,9 @@ class Day8Test {
     void testPart2() {
         assertEquals(983030, day8.part2());
     }
+
+    @Test
+    void testExample() {
+        assertEquals(5353, day8.exampleInput());
+    }
 }
