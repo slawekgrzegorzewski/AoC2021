@@ -3,6 +3,8 @@ package com.adventofcode.input;
 import com.adventofcode.input.bingo.BingoBoard;
 import com.adventofcode.input.bingo.Game;
 import com.adventofcode.input.day5.HydrothermalVent;
+import com.adventofcode.input.day8.Output;
+import com.adventofcode.input.day8.Signal;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -73,11 +76,47 @@ public class Input {
                 .toList();
     }
 
+    public static List<LanternFish> lanternFishes(String resourceName) throws IOException {
+        return getInputFromFile(resourceName)
+                .stream()
+                .map(line -> line.split(","))
+                .flatMap(Arrays::stream)
+                .map(Integer::parseInt)
+                .map(LanternFish::new)
+                .toList();
+    }
+
+    public static int[] crabsPositions(String resourceName) throws IOException {
+        return getInputFromFile(resourceName)
+                .stream()
+                .map(line -> line.split(","))
+                .flatMap(Arrays::stream)
+                .mapToInt(Integer::parseInt)
+                .toArray();
+    }
+
+    public static Map<Signal, Output> signalsReads(String resourceName) throws IOException {
+        return getInputFromFile(resourceName)
+                .stream()
+                .map(line -> line.split("\\|"))
+                .collect(Collectors.toMap(
+                        elements -> Signal.parse(elements[0]),
+                        elements -> Output.parse(elements[1])
+                ));
+    }
+
+    public static List<String> day10(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day11(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
     private static List<String> getInputFromFile(String resourceName) throws IOException {
         try (InputStreamReader in = new InputStreamReader(Input.class.getResourceAsStream(resourceName));
              BufferedReader reader = new BufferedReader(in)) {
             return reader.lines().collect(Collectors.toList());
         }
     }
-
 }
