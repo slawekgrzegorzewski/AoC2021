@@ -105,7 +105,7 @@ public class Input {
                 ));
     }
 
-    public static List<String> day10(String resourceName) throws IOException {
+    public static List<String> navigationLines(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 
