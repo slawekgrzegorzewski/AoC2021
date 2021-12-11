@@ -109,8 +109,15 @@ public class Input {
         return getInputFromFile(resourceName);
     }
 
-    public static List<String> day11(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static int[][] octopuses(String resourceName) throws IOException {
+        return getInputFromFile(resourceName)
+                .stream()
+                .map(line -> line.chars()
+                        .mapToObj(i -> (char) i)
+                        .map(String::valueOf)
+                        .mapToInt(Integer::parseInt)
+                        .toArray())
+                .toArray(int[][]::new);
     }
 
     private static List<String> getInputFromFile(String resourceName) throws IOException {

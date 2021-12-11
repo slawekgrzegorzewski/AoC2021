@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -37,6 +38,10 @@ public class Coordinates {
 
     public int getValue(int[][] array) {
         return array[x()][y()];
+    }
+
+    public void setValue(int[][] array, int value) {
+        array[x()][y()] = value;
     }
 
     public Optional<Coordinates> up() {
@@ -78,5 +83,29 @@ public class Coordinates {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public List<Coordinates> adjacentCellsWithDiagonals() {
+        return Stream.of(this.up().flatMap(Coordinates::left),
+                        this.up(),
+                        this.up().flatMap(Coordinates::right),
+                        this.left(),
+                        this.right(),
+                        this.down().flatMap(Coordinates::left),
+                        this.down().flatMap(Coordinates::right),
+                        this.down())
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+    }
+
+    public List<Coordinates> adjacentCellsWithoutDiagonals() {
+        return Stream.of(this.up(),
+                        this.left(),
+                        this.right(),
+                        this.down())
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
     }
 }

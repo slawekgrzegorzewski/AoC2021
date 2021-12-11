@@ -66,9 +66,8 @@ public class Day9 {
 
     private boolean isLowPoint(Coordinates coordinates) {
         int pointValue = coordinates.getValue(heightMap);
-        return Stream.of(coordinates.up(), coordinates.down(), coordinates.left(), coordinates.right())
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+        return coordinates.adjacentCellsWithoutDiagonals()
+                .stream()
                 .mapToInt(c -> c.getValue(heightMap))
                 .allMatch(value -> value > pointValue);
     }
