@@ -9,10 +9,7 @@ import com.adventofcode.input.day8.Signal;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -121,7 +118,7 @@ public class Input {
     }
 
     private static List<String> getInputFromFile(String resourceName) throws IOException {
-        try (InputStreamReader in = new InputStreamReader(Input.class.getResourceAsStream(resourceName));
+        try (InputStreamReader in = new InputStreamReader(Objects.requireNonNull(Input.class.getResourceAsStream(resourceName)));
              BufferedReader reader = new BufferedReader(in)) {
             return reader.lines().collect(Collectors.toList());
         }
