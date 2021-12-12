@@ -5,18 +5,18 @@ import com.adventofcode.input.Input;
 import java.io.IOException;
 import java.util.List;
 
-public class Day13 {
+public class Day14 {
 
     List<String> input;
 
     public static void main(String[] input) throws IOException {
-        Day13 day13 = new Day13();
-        System.out.println("part1 = " + day13.part1());
-        System.out.println("part2 = " + day13.part2());
+        Day14 day14 = new Day14();
+        System.out.println("part1 = " + day14.part1());
+        System.out.println("part2 = " + day14.part2());
     }
 
-    public Day13() throws IOException {
-        input = Input.day13("/day13");
+    public Day14() throws IOException {
+        input = Input.day14("/day14");
     }
 
     int part1() {

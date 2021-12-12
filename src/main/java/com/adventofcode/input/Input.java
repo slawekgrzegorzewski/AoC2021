@@ -117,6 +117,30 @@ public class Input {
                 .toArray(int[][]::new);
     }
 
+    public static Map<String, List<String>> cavesGraph(String resourceName) throws IOException {
+        Map<String, List<String>> graph = new HashMap<>();
+        getInputFromFile(resourceName)
+                .stream()
+                .map(line -> line.split("-"))
+                .forEach(strings -> {
+                    addPath(graph, strings[0], strings[1]);
+                    addPath(graph, strings[1], strings[0]);
+                });
+        return graph;
+    }
+
+    private static void addPath(Map<String, List<String>> graph, String from, String to) {
+        graph.computeIfAbsent(from, (key) -> new ArrayList<>()).add(to);
+    }
+
+    public static List<String> day13(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day14(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
     private static List<String> getInputFromFile(String resourceName) throws IOException {
         try (InputStreamReader in = new InputStreamReader(Objects.requireNonNull(Input.class.getResourceAsStream(resourceName)));
              BufferedReader reader = new BufferedReader(in)) {
