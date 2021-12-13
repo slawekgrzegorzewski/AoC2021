@@ -2,6 +2,7 @@ package com.adventofcode.input;
 
 import com.adventofcode.input.bingo.BingoBoard;
 import com.adventofcode.input.bingo.Game;
+import com.adventofcode.input.day13.TransparentPageManual;
 import com.adventofcode.input.day5.HydrothermalVent;
 import com.adventofcode.input.day8.Output;
 import com.adventofcode.input.day8.Signal;
@@ -133,11 +134,41 @@ public class Input {
         graph.computeIfAbsent(from, (key) -> new ArrayList<>()).add(to);
     }
 
-    public static List<String> day13(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static TransparentPageManual transparentPageManual(String resourceName) throws IOException {
+        Iterator<String> lines = getInputFromFile(resourceName).iterator();
+        String line = lines.next();
+        Map<Integer, List<Integer>> dotsInMap = new HashMap<>();
+        while (!line.isEmpty()) {
+            String[] dotString = line.split(",");
+            dotsInMap.computeIfAbsent(Integer.parseInt(dotString[0]), key -> new ArrayList<>()).add(Integer.parseInt(dotString[1]));
+            line = lines.next();
+        }
+        List<TransparentPageManual.FoldInstruction> foldInstructions = new ArrayList<>();
+        while (lines.hasNext()) {
+            line = lines.next();
+            line = line.replace("fold along ", "");
+            String[] foldInstructionsLine = line.split("=");
+            foldInstructions.add(
+                    new TransparentPageManual.FoldInstruction(
+                            foldInstructionsLine[0].equals("x") ? TransparentPageManual.Ax.X : TransparentPageManual.Ax.Y,
+                            Integer.parseInt(foldInstructionsLine[1]))
+            );
+        }
+        int width = dotsInMap.keySet().stream().mapToInt(i -> i + 1).max().orElse(0);
+        int height = dotsInMap.values().stream().mapToInt(list -> list.stream().mapToInt(i -> i + 1).max().orElse(0)).max().orElse(0);
+        return new TransparentPageManual(
+                dotsInMap.entrySet().stream().flatMap(e ->
+                    e.getValue().stream().map(v -> new Coordinates(e.getKey(), v, width, height))
+                ).toList(),
+                foldInstructions
+        );
     }
 
     public static List<String> day14(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day15(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 
