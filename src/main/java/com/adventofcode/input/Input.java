@@ -164,11 +164,23 @@ public class Input {
         );
     }
 
-    public static List<String> day14(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static Polymer polymers(String resourceName) throws IOException {
+        List<String> inputFromFile = getInputFromFile(resourceName);
+        String polymer = inputFromFile.get(0);
+        Map<String, String> collect = inputFromFile.subList(2, inputFromFile.size()).stream()
+                .map(line -> line.split(" -> "))
+                .collect(Collectors.toMap(
+                        strings -> strings[0],
+                        strings -> strings[1]
+                ));
+        return new Polymer(polymer, collect);
     }
 
     public static List<String> day15(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day16(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 
