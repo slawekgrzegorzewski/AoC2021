@@ -78,6 +78,10 @@ public record Coordinates(int x, int y, int width, int height) {
         return empty();
     }
 
+    public boolean isBottomRight() {
+        return x == width - 1 && y == height - 1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -113,5 +117,10 @@ public record Coordinates(int x, int y, int width, int height) {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
     }
 }

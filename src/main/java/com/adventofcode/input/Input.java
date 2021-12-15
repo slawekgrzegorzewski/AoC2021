@@ -176,11 +176,18 @@ public class Input {
         return new Polymer(polymer, collect);
     }
 
-    public static List<String> day15(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static int[][] riskMap(String resourceName) throws IOException {
+        return getInputFromFile(resourceName)
+                .stream()
+                .map(line -> line.chars().mapToObj(i -> (char)i).map(String::valueOf).mapToInt(Integer::parseInt).toArray())
+                .toArray(int[][]::new);
     }
 
     public static List<String> day16(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day17(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 
