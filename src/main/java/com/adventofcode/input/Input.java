@@ -158,7 +158,7 @@ public class Input {
         int height = dotsInMap.values().stream().mapToInt(list -> list.stream().mapToInt(i -> i + 1).max().orElse(0)).max().orElse(0);
         return new TransparentPageManual(
                 dotsInMap.entrySet().stream().flatMap(e ->
-                    e.getValue().stream().map(v -> new Coordinates(e.getKey(), v, width, height))
+                        e.getValue().stream().map(v -> new Coordinates(e.getKey(), v, width, height))
                 ).toList(),
                 foldInstructions
         );
@@ -179,15 +179,45 @@ public class Input {
     public static int[][] riskMap(String resourceName) throws IOException {
         return getInputFromFile(resourceName)
                 .stream()
-                .map(line -> line.chars().mapToObj(i -> (char)i).map(String::valueOf).mapToInt(Integer::parseInt).toArray())
+                .map(line -> line.chars().mapToObj(i -> (char) i).map(String::valueOf).mapToInt(Integer::parseInt).toArray())
                 .toArray(int[][]::new);
     }
 
-    public static List<String> day16(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static List<Integer> bits(String resourceName) throws IOException {
+        return bitsFromString(getInputFromFile(resourceName).get(0));
+    }
+
+    public static List<Integer> bitsFromString(String line)  {
+        final Map<Character, List<Integer>> hexadecimalCodes = new HashMap<>();
+        hexadecimalCodes.put('0', List.of(0, 0, 0, 0));
+        hexadecimalCodes.put('1', List.of(0, 0, 0, 1));
+        hexadecimalCodes.put('2', List.of(0, 0, 1, 0));
+        hexadecimalCodes.put('3', List.of(0, 0, 1, 1));
+        hexadecimalCodes.put('4', List.of(0, 1, 0, 0));
+        hexadecimalCodes.put('5', List.of(0, 1, 0, 1));
+        hexadecimalCodes.put('6', List.of(0, 1, 1, 0));
+        hexadecimalCodes.put('7', List.of(0, 1, 1, 1));
+        hexadecimalCodes.put('8', List.of(1, 0, 0, 0));
+        hexadecimalCodes.put('9', List.of(1, 0, 0, 1));
+        hexadecimalCodes.put('A', List.of(1, 0, 1, 0));
+        hexadecimalCodes.put('B', List.of(1, 0, 1, 1));
+        hexadecimalCodes.put('C', List.of(1, 1, 0, 0));
+        hexadecimalCodes.put('D', List.of(1, 1, 0, 1));
+        hexadecimalCodes.put('E', List.of(1, 1, 1, 0));
+        hexadecimalCodes.put('F', List.of(1, 1, 1, 1));
+
+        return line
+                .chars()
+                .mapToObj(i -> hexadecimalCodes.get((char)i))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
 
     public static List<String> day17(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day18(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 
