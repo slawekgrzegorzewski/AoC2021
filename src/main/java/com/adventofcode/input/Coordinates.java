@@ -10,12 +10,21 @@ import java.util.stream.Stream;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
-public record Coordinates(int x, int y, int width, int height) {
+public record Coordinates(int x, int y, int width, int height, int minX, int minY) {
+
+    public Coordinates(int x, int y, int width, int height) {
+        this(x, y, width, height, 0, 0);
+    }
+
     public static List<Coordinates> walkTroughAllPoints(int width, int height) {
         return IntStream.range(0, width)
                 .mapToObj(x -> IntStream.range(0, height).mapToObj(y -> new Coordinates(x, y, width, height)))
                 .flatMap(a -> a)
                 .collect(Collectors.toList());
+    }
+
+    public static Coordinates ofInfiniteSpace(int x, int y) {
+        return new Coordinates(x, y, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
     }
 
     public int getValue(int[][] array) {
@@ -39,8 +48,11 @@ public record Coordinates(int x, int y, int width, int height) {
     }
 
     public Optional<Coordinates> up(int count) {
-        if (y >= count) {
-            return of(new Coordinates(x, y - count, width, height));
+        if (count < 0) {
+            return down(-count);
+        }
+        if (y - count >= minY) {
+            return of(new Coordinates(x, y - count, width, height, minX, minY));
         }
         return empty();
     }
@@ -50,8 +62,11 @@ public record Coordinates(int x, int y, int width, int height) {
     }
 
     public Optional<Coordinates> down(int count) {
+        if (count < 0) {
+            return up(-count);
+        }
         if (y < height - count) {
-            return of(new Coordinates(x, y + count, width, height));
+            return of(new Coordinates(x, y + count, width, height, minX, minY));
         }
         return empty();
     }
@@ -61,8 +76,11 @@ public record Coordinates(int x, int y, int width, int height) {
     }
 
     public Optional<Coordinates> left(int count) {
-        if (x >= count) {
-            return of(new Coordinates(x - count, y, width, height));
+        if (count < 0) {
+            return right(-count);
+        }
+        if (x - count >= minX) {
+            return of(new Coordinates(x - count, y, width, height, minX, minY));
         }
         return empty();
     }
@@ -72,27 +90,13 @@ public record Coordinates(int x, int y, int width, int height) {
     }
 
     public Optional<Coordinates> right(int count) {
+        if (count < 0) {
+            return left(-count);
+        }
         if (x < width - count) {
-            return of(new Coordinates(x + count, y, width, height));
+            return of(new Coordinates(x + count, y, width, height, minX, minY));
         }
         return empty();
-    }
-
-    public boolean isBottomRight() {
-        return x == width - 1 && y == height - 1;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Coordinates that = (Coordinates) o;
-        return x == that.x && y == that.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
     }
 
     public List<Coordinates> adjacentCellsWithDiagonals() {
@@ -122,5 +126,18 @@ public record Coordinates(int x, int y, int width, int height) {
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinates that = (Coordinates) o;
+        return x == that.x && y == that.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

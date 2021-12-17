@@ -3,6 +3,7 @@ package com.adventofcode.input;
 import com.adventofcode.input.bingo.BingoBoard;
 import com.adventofcode.input.bingo.Game;
 import com.adventofcode.input.day13.TransparentPageManual;
+import com.adventofcode.input.day17.Rectangle;
 import com.adventofcode.input.day5.HydrothermalVent;
 import com.adventofcode.input.day8.Output;
 import com.adventofcode.input.day8.Signal;
@@ -213,11 +214,27 @@ public class Input {
                 .collect(Collectors.toList());
     }
 
-    public static List<String> day17(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static Rectangle targetArea(String resourceName) throws IOException {
+        String[] coordinateParts = getInputFromFile(resourceName).get(0)
+                .replace("target area: ", "")
+                .split(", ");
+        int[] xes = Arrays.stream(coordinateParts[0].replace("x=", "").split("\\.\\.")).mapToInt(Integer::parseInt).toArray();
+        int[] ys = Arrays.stream(coordinateParts[1].replace("y=", "").split("\\.\\.")).mapToInt(Integer::parseInt).toArray();
+        int minX = Math.min(xes[0], xes[1]);
+        int maxX = Math.max(xes[0], xes[1]);
+        int minY = Math.min(ys[0], ys[1]);
+        int maxY = Math.max(ys[0], ys[1]);
+        return new Rectangle(
+                Coordinates.ofInfiniteSpace(minX, maxY),
+                Coordinates.ofInfiniteSpace(maxX, minY)
+        );
     }
 
     public static List<String> day18(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day19(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 
