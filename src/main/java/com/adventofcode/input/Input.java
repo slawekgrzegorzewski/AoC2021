@@ -4,6 +4,9 @@ import com.adventofcode.input.bingo.BingoBoard;
 import com.adventofcode.input.bingo.Game;
 import com.adventofcode.input.day13.TransparentPageManual;
 import com.adventofcode.input.day17.Rectangle;
+import com.adventofcode.input.day18.CompoundSnailfishNumber;
+import com.adventofcode.input.day18.SnailfishNumber;
+import com.adventofcode.input.day18.SnailfishNumberParser;
 import com.adventofcode.input.day5.HydrothermalVent;
 import com.adventofcode.input.day8.Output;
 import com.adventofcode.input.day8.Signal;
@@ -188,7 +191,7 @@ public class Input {
         return bitsFromString(getInputFromFile(resourceName).get(0));
     }
 
-    public static List<Integer> bitsFromString(String line)  {
+    public static List<Integer> bitsFromString(String line) {
         final Map<Character, List<Integer>> hexadecimalCodes = new HashMap<>();
         hexadecimalCodes.put('0', List.of(0, 0, 0, 0));
         hexadecimalCodes.put('1', List.of(0, 0, 0, 1));
@@ -209,7 +212,7 @@ public class Input {
 
         return line
                 .chars()
-                .mapToObj(i -> hexadecimalCodes.get((char)i))
+                .mapToObj(i -> hexadecimalCodes.get((char) i))
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
@@ -230,11 +233,20 @@ public class Input {
         );
     }
 
-    public static List<String> day18(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static List<CompoundSnailfishNumber> day18(String resourceName) throws IOException {
+        SnailfishNumberParser parser = new SnailfishNumberParser();
+        return getInputFromFile(resourceName)
+                .stream()
+                .map(parser::parse)
+                .map(CompoundSnailfishNumber.class::cast)
+                .collect(Collectors.toList());
     }
 
     public static List<String> day19(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day20(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 
