@@ -2,6 +2,7 @@ package com.adventofcode;
 
 import com.adventofcode.input.Coordinates;
 import com.adventofcode.input.Input;
+import com.adventofcode.input.day15.DijkstraShortestPath;
 import com.adventofcode.input.day15.Graph;
 import com.adventofcode.input.day15.Node;
 
@@ -54,11 +55,6 @@ public class Day15 {
             }
         }
     }
-    // 1 2 3 4 5
-    // 2 3 4 5 6
-    // 3 4 5 6 7
-    // 4 5 6 7 8
-    // 5 6 7 8 9
 
     private Integer[][] addToArray(int factor, int[][] array) {
         Integer[][] result = new Integer[array.length][array[0].length];
@@ -80,72 +76,21 @@ public class Day15 {
                         n -> n
                 ));
         Coordinates.walkTroughAllPoints(w, h)
-                .forEach(n -> {
-                    Stream.of(n.up(), n.down(), n.left(), n.right())
-                            .filter(Optional::isPresent)
-                            .map(Optional::get)
-                            .forEach(n1 -> {
-                                Node source = nodes.get(String.valueOf(nodeIndex(n)));
-                                Node destination = nodes.get(String.valueOf(nodeIndex(n1)));
-                                source.addDestination(destination, n1.getValue(rm));
-                            });
-                });
+                .forEach(n -> Stream.of(n.up(), n.down(), n.left(), n.right())
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .forEach(n1 -> {
+                            Node source = nodes.get(String.valueOf(nodeIndex(n)));
+                            Node destination = nodes.get(String.valueOf(nodeIndex(n1)));
+                            source.addDestination(destination, n1.getValue(rm));
+                        }));
         Graph g = new Graph();
         nodes.values().forEach(g::addNode);
         Node fromNode = nodes.get(String.valueOf(nodeIndex(new Coordinates(0, 0, w, h))));
         String lastNodeName = String.valueOf(nodeIndex(new Coordinates(w - 1, h - 1, w, h)));
-        Graph graph = calculateShortestPathFromSource(g, fromNode);
-        Node lastNode = graph.findNode(lastNodeName);
+        new DijkstraShortestPath().calculate(fromNode);
+        Node lastNode = g.findNode(lastNodeName);
         return lastNode.getDistance();
-    }
-
-    public Graph calculateShortestPathFromSource(Graph graph, Node source) {
-        source.setDistance(0);
-
-        Set<Node> settledNodes = new HashSet<>();
-        Set<Node> unsettledNodes = new HashSet<>();
-
-        unsettledNodes.add(source);
-
-        while (unsettledNodes.size() != 0) {
-            Node currentNode = getLowestDistanceNode(unsettledNodes);
-            unsettledNodes.remove(currentNode);
-            for (Map.Entry<Node, Integer> adjacencyPair :
-                    currentNode.getAdjacentNodes().entrySet()) {
-                Node adjacentNode = adjacencyPair.getKey();
-                Integer edgeWeight = adjacencyPair.getValue();
-                if (!settledNodes.contains(adjacentNode)) {
-                    calculateMinimumDistance(adjacentNode, edgeWeight, currentNode);
-                    unsettledNodes.add(adjacentNode);
-                }
-            }
-            settledNodes.add(currentNode);
-        }
-        return graph;
-    }
-
-    private Node getLowestDistanceNode(Set<Node> unsettledNodes) {
-        Node lowestDistanceNode = null;
-        int lowestDistance = Integer.MAX_VALUE;
-        for (Node node : unsettledNodes) {
-            int nodeDistance = node.getDistance();
-            if (nodeDistance < lowestDistance) {
-                lowestDistance = nodeDistance;
-                lowestDistanceNode = node;
-            }
-        }
-        return lowestDistanceNode;
-    }
-
-    private void calculateMinimumDistance(Node evaluationNode,
-                                          Integer edgeWeigh, Node sourceNode) {
-        Integer sourceDistance = sourceNode.getDistance();
-        if (sourceDistance + edgeWeigh < evaluationNode.getDistance()) {
-            evaluationNode.setDistance(sourceDistance + edgeWeigh);
-            LinkedList<Node> shortestPath = new LinkedList<>(sourceNode.getShortestPath());
-            shortestPath.add(sourceNode);
-            evaluationNode.setShortestPath(shortestPath);
-        }
     }
 
     private int nodeIndex(Coordinates n) {

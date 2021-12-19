@@ -5,8 +5,10 @@ import com.adventofcode.input.bingo.Game;
 import com.adventofcode.input.day13.TransparentPageManual;
 import com.adventofcode.input.day17.Rectangle;
 import com.adventofcode.input.day18.CompoundSnailfishNumber;
-import com.adventofcode.input.day18.SnailfishNumber;
 import com.adventofcode.input.day18.SnailfishNumberParser;
+import com.adventofcode.input.day19.BeaconPosition;
+import com.adventofcode.input.day19.Pair;
+import com.adventofcode.input.day19.SamePair;
 import com.adventofcode.input.day5.HydrothermalVent;
 import com.adventofcode.input.day8.Output;
 import com.adventofcode.input.day8.Signal;
@@ -18,6 +20,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static com.adventofcode.input.day19.Pair.pair;
+import static com.adventofcode.input.day19.SamePair.samePair;
 
 public class Input {
 
@@ -242,11 +247,29 @@ public class Input {
                 .collect(Collectors.toList());
     }
 
-    public static List<String> day19(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static Map<Integer, List<BeaconPosition>> scannersReport(String resourceName) throws IOException {
+        Map<Integer, List<BeaconPosition>> result = new HashMap<>();
+        int currentScanner = 0;
+        for (String line : getInputFromFile(resourceName)) {
+            if (line.contains("scanner")) {
+                currentScanner = Integer.parseInt(line.replace("--- scanner ", "").replace(" ---", ""));
+            } else if (!line.isBlank()) {
+                String[] coordinates = line.split(",");
+                result.computeIfAbsent(currentScanner, (key) -> new ArrayList<>()).add(new BeaconPosition(
+                        Integer.parseInt(coordinates[0]),
+                        Integer.parseInt(coordinates[1]),
+                        Integer.parseInt(coordinates[2])
+                ));
+            }
+        }
+        return result;
     }
 
     public static List<String> day20(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day21(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 
@@ -255,5 +278,17 @@ public class Input {
              BufferedReader reader = new BufferedReader(in)) {
             return reader.lines().collect(Collectors.toList());
         }
+    }
+
+    public static <T> List<SamePair<T>> pairs(List<T> list) {
+        List<SamePair<T>> pairs = new ArrayList<>();
+        for (int i = 0; i < list.size() - 1; i++) {
+            T from = list.get(i);
+            for (int j = i + 1; j < list.size(); j++) {
+                T to = list.get(j);
+                pairs.add(samePair(from, to));
+            }
+        }
+        return pairs;
     }
 }
