@@ -2,6 +2,7 @@
 package com.adventofcode;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ class Day15Test {
     }
 
     @Test
+    @Disabled
     void testPart2() {
         assertEquals(2922, day15.part2());
     }
