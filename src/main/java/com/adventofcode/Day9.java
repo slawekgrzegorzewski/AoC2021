@@ -58,7 +58,7 @@ public class Day9 {
     }
 
     private List<Coordinates> lowPoints() {
-        return Coordinates.walkTroughAllPoints(heightMap.length, heightMap[0].length)
+        return Coordinates.walkTroughAllPointsVertically(heightMap.length, heightMap[0].length)
                 .stream()
                 .filter(this::isLowPoint)
                 .collect(Collectors.toList());

@@ -68,14 +68,14 @@ public class Day15 {
     }
 
     private Integer findShortestPath(int w, int h, int[][] rm) {
-        Map<String, Node> nodes = Coordinates.walkTroughAllPoints(w, h)
+        Map<String, Node> nodes = Coordinates.walkTroughAllPointsVertically(w, h)
                 .stream()
                 .map(n -> new Node(String.valueOf(nodeIndex(n))))
                 .collect(Collectors.toMap(
                         Node::getName,
                         n -> n
                 ));
-        Coordinates.walkTroughAllPoints(w, h)
+        Coordinates.walkTroughAllPointsVertically(w, h)
                 .forEach(n -> Stream.of(n.up(), n.down(), n.left(), n.right())
                         .filter(Optional::isPresent)
                         .map(Optional::get)

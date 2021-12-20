@@ -14,7 +14,7 @@ import static com.adventofcode.input.day11.Flashes.EMPTY;
 
 public class Day11 {
 
-    private final List<Coordinates> octopusesIterator = Coordinates.walkTroughAllPoints(10, 10);
+    private final List<Coordinates> octopusesIterator = Coordinates.walkTroughAllPointsVertically(10, 10);
     private final int[][] octopusesSource;
     private int[][] octopuses;
 
@@ -30,7 +30,7 @@ public class Day11 {
 
     private void createWorkData() {
         octopuses = new int[10][10];
-        Coordinates.walkTroughAllPoints(10, 10)
+        Coordinates.walkTroughAllPointsVertically(10, 10)
                 .forEach(c ->
                         c.setValue(octopuses, c.getValue(octopusesSource))
                 );

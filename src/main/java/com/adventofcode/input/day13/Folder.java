@@ -19,7 +19,7 @@ public class Folder {
     }
 
     public void fold(TransparentPageManual.FoldInstruction foldInstruction) {
-        List<Coordinates> coordinates = Coordinates.walkTroughAllPoints(width, height);
+        List<Coordinates> coordinates = Coordinates.walkTroughAllPointsVertically(width, height);
         for (Coordinates coordinate : coordinates) {
             if (isAfter(coordinate, foldInstruction) && coordinate.getValue(page) == '.') {
                 Optional<Coordinates> newDot = switch (foldInstruction.ax()) {
@@ -53,7 +53,7 @@ public class Folder {
     }
 
     public int countDots() {
-        return Coordinates.walkTroughAllPoints(width, height)
+        return Coordinates.walkTroughAllPointsVertically(width, height)
                 .stream()
                 .mapToInt(c -> c.getValue(page) == '.' ? 1 :0)
                 .sum();

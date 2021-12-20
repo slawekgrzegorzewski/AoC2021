@@ -16,9 +16,16 @@ public record Coordinates(int x, int y, int width, int height, int minX, int min
         this(x, y, width, height, 0, 0);
     }
 
-    public static List<Coordinates> walkTroughAllPoints(int width, int height) {
+    public static List<Coordinates> walkTroughAllPointsVertically(int width, int height) {
         return IntStream.range(0, width)
                 .mapToObj(x -> IntStream.range(0, height).mapToObj(y -> new Coordinates(x, y, width, height)))
+                .flatMap(a -> a)
+                .collect(Collectors.toList());
+    }
+
+    public static List<Coordinates> walkTroughAllPointsHorizontally(int width, int height) {
+        return IntStream.range(0, height)
+                .mapToObj(y -> IntStream.range(0, width).mapToObj(x -> new Coordinates(x, y, width, height)))
                 .flatMap(a -> a)
                 .collect(Collectors.toList());
     }
@@ -41,6 +48,22 @@ public record Coordinates(int x, int y, int width, int height, int minX, int min
 
     public void setValue(char[][] array, char value) {
         array[y()][x()] = value;
+    }
+
+    public Optional<Coordinates> upLeft() {
+        return up(1).flatMap(Coordinates::left);
+    }
+
+    public Optional<Coordinates> upRight() {
+        return up(1).flatMap(Coordinates::right);
+    }
+
+    public Optional<Coordinates> downLeft() {
+        return down(1).flatMap(Coordinates::left);
+    }
+
+    public Optional<Coordinates> downRight() {
+        return down(1).flatMap(Coordinates::right);
     }
 
     public Optional<Coordinates> up() {

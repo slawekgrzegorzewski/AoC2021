@@ -265,11 +265,22 @@ public class Input {
         return result;
     }
 
-    public static List<String> day20(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static Pair<String, char[][]> day20(String resourceName) throws IOException {
+        List<String> inputFromFile = getInputFromFile(resourceName);
+        return pair(
+                inputFromFile.get(0),
+                inputFromFile.subList(2, inputFromFile.size())
+                        .stream()
+                        .map(String::toCharArray)
+                        .toArray(char[][]::new)
+        );
     }
 
     public static List<String> day21(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day22(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 
