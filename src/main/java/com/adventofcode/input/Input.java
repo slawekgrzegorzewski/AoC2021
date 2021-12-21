@@ -276,11 +276,23 @@ public class Input {
         );
     }
 
-    public static List<String> day21(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static Map<Integer, Integer> day21(String resourceName) throws IOException {
+        return getInputFromFile(resourceName)
+                .stream()
+                .map(line -> line.replace("Player ", ""))
+                .map(line -> line.split(" starting position: "))
+                .collect(Collectors.toMap(
+                        integers -> Integer.parseInt(integers[0]),
+                        integers -> Integer.parseInt(integers[1])
+                ));
     }
 
     public static List<String> day22(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+
+    public static List<String> day23(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 
