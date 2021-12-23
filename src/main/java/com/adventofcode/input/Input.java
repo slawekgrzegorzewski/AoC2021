@@ -11,6 +11,8 @@ import com.adventofcode.input.day19.Pair;
 import com.adventofcode.input.day19.SamePair;
 import com.adventofcode.input.day22.CubeState;
 import com.adventofcode.input.day22.SameTriple;
+import com.adventofcode.input.day23.Amphipod;
+import com.adventofcode.input.day23.Room2;
 import com.adventofcode.input.day5.HydrothermalVent;
 import com.adventofcode.input.day8.Output;
 import com.adventofcode.input.day8.Signal;
@@ -322,11 +324,21 @@ public class Input {
     }
 
 
-    public static List<String> day23(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static List<Room2> day23(String resourceName) throws IOException {
+        List<String> inputFromFile = getInputFromFile(resourceName);
+        return List.of(
+                new Room2(0, Amphipod.valueOf("" + inputFromFile.get(2).charAt(3)), Amphipod.valueOf("" + inputFromFile.get(3).charAt(3))),
+               new Room2(1, Amphipod.valueOf("" + inputFromFile.get(2).charAt(5)), Amphipod.valueOf("" + inputFromFile.get(3).charAt(5))),
+               new Room2(2, Amphipod.valueOf("" + inputFromFile.get(2).charAt(7)), Amphipod.valueOf("" + inputFromFile.get(3).charAt(7))),
+               new Room2(3, Amphipod.valueOf("" + inputFromFile.get(2).charAt(9)), Amphipod.valueOf("" + inputFromFile.get(3).charAt(9)))
+        );
     }
 
     public static List<String> day24(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day25(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 
