@@ -9,6 +9,8 @@ import com.adventofcode.input.day18.SnailfishNumberParser;
 import com.adventofcode.input.day19.BeaconPosition;
 import com.adventofcode.input.day19.Pair;
 import com.adventofcode.input.day19.SamePair;
+import com.adventofcode.input.day22.CubeState;
+import com.adventofcode.input.day22.SameTriple;
 import com.adventofcode.input.day5.HydrothermalVent;
 import com.adventofcode.input.day8.Output;
 import com.adventofcode.input.day8.Signal;
@@ -23,6 +25,9 @@ import java.util.stream.Stream;
 
 import static com.adventofcode.input.day19.Pair.pair;
 import static com.adventofcode.input.day19.SamePair.samePair;
+import static com.adventofcode.input.day22.CubeState.OFF;
+import static com.adventofcode.input.day22.CubeState.ON;
+import static com.adventofcode.input.day22.SameTriple.sameTriple;
 
 public class Input {
 
@@ -287,12 +292,41 @@ public class Input {
                 ));
     }
 
-    public static List<String> day22(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static List<Pair<SameTriple<SamePair<Long>>, CubeState>> day22(String resourceName) throws IOException {
+        return getInputFromFile(resourceName)
+                .stream()
+                .map(line -> {
+                    CubeState cubeState = OFF;
+                    if (line.startsWith("on")) {
+                        cubeState = ON;
+                    }
+                    line = line
+                            .replace("on ", "")
+                            .replace("off ", "")
+                            .replace("x=", "")
+                            .replace("y=", "")
+                            .replace("z=", "");
+                    String[] coordinates = line.split(",");
+                    String[] fromToPair = coordinates[0].split("\\.\\.");
+                    long fromX = Integer.parseInt(fromToPair[0]);
+                    long toX = Integer.parseInt(fromToPair[1]);
+                    fromToPair = coordinates[1].split("\\.\\.");
+                    long fromY = Integer.parseInt(fromToPair[0]);
+                    long toY = Integer.parseInt(fromToPair[1]);
+                    fromToPair = coordinates[2].split("\\.\\.");
+                    long fromZ = Integer.parseInt(fromToPair[0]);
+                    long toZ = Integer.parseInt(fromToPair[1]);
+                    return pair(sameTriple(samePair(fromX, toX), samePair(fromY, toY), samePair(fromZ, toZ)), cubeState);
+                })
+                .toList();
     }
 
 
     public static List<String> day23(String resourceName) throws IOException {
+        return getInputFromFile(resourceName);
+    }
+
+    public static List<String> day24(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 

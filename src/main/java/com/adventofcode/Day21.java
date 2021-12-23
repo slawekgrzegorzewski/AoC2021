@@ -2,8 +2,8 @@ package com.adventofcode;
 
 import com.adventofcode.input.Input;
 import com.adventofcode.input.day19.SamePair;
-import com.adventofcode.input.day22.DeterministicDice;
-import com.adventofcode.input.day22.Dice;
+import com.adventofcode.input.day21.DeterministicDice;
+import com.adventofcode.input.day21.Dice;
 
 import java.io.IOException;
 import java.util.*;

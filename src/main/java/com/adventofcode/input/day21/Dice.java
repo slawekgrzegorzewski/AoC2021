@@ -1,4 +1,4 @@
-package com.adventofcode.input.day22;
+package com.adventofcode.input.day21;
 
 public interface Dice {
     int roll();
