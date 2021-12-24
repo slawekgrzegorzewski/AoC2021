@@ -334,7 +334,7 @@ public class Input {
         );
     }
 
-    public static List<String> day24(String resourceName) throws IOException {
+    public static List<String> program(String resourceName) throws IOException {
         return getInputFromFile(resourceName);
     }
 

@@ -19,11 +19,11 @@ class Day24Test {
 
     @Test
     void testPart1() {
-        assertEquals(0, day24.part1());
+        assertEquals(99919765949498L, day24.part1());
     }
 
     @Test
     void testPart2() {
-        assertEquals(0, day24.part2());
+        assertEquals(24913111616151L, day24.part2());
     }
 }
