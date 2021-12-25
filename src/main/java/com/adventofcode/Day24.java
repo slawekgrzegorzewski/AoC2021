@@ -67,11 +67,24 @@ public class Day24 {
 
     long step(long input, long z, int i) {
         long paramA = A[i], paramB = B[i], paramC = C[i];
-        System.out.println(
-                String.format("z%d = (z%d %% 26 + %d == input%d ? 0 : 1) * (z%d / %d * 25 + input%d + %d) + z%d / %d",
-                        i, i-1, paramB, i, i-1, paramA, i, paramC, i-1, paramA)
-        );
-        return (z % 26L + paramB == input ? 0L : 1L) * (z / paramA * 25L + input + paramC) + z / paramA;
+//        System.out.println(
+//                String.format("z%d = (z%d %% 26 + %d == input%d ? 0 : 1) * (z%d / %d * 25 + input%d + %d) + z%d / %d",
+//                        i, i-1, paramB, i, i-1, paramA, i, paramC, i-1, paramA)
+//        );
+
+        int[] A = new int[]{1, 1, 1, 26, 1, 26, 26, 1, 1, 1, 26, 26, 26, 26};
+        int[] B = new int[]{14, 15, 13, -10, 14, -3, -14, 12, 14, 12, -6, -6, -2, -9};
+        int[] C = new int[]{8, 11, 2, 11, 1, 5, 10, 6, 1, 11, 9, 14, 11, 2};
+
+        long nextZ;
+        if (z % 26L == input - paramB) {
+            nextZ = (z - input + paramB) / paramA;
+            System.out.println("paramA = " + paramA + "; paramB = " + paramB);
+        } else {
+            nextZ = z / paramA * 26L + input + paramC;
+        }
+//        System.out.println("z" + i + "=" + nextZ);
+        return nextZ;
     }
 
     void step2(long input, Memory m, int A, int B, int C) {

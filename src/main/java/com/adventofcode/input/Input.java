@@ -338,8 +338,11 @@ public class Input {
         return getInputFromFile(resourceName);
     }
 
-    public static List<String> day25(String resourceName) throws IOException {
-        return getInputFromFile(resourceName);
+    public static char[][] seaCucumbersMap(String resourceName) throws IOException {
+        return getInputFromFile(resourceName)
+                .stream()
+                .map(String::toCharArray)
+                .toArray(char[][]::new);
     }
 
     private static List<String> getInputFromFile(String resourceName) throws IOException {
